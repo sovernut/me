@@ -1,18 +1,31 @@
-import logo from "./logo.svg";
-import "./App.css";
-import Main from "./components/Main";
-import { Route } from "react-router";
+import './App.css';
+
+import { Route } from 'react-router';
+
+import {
+  CssBaseline,
+  GeistProvider,
+} from '@geist-ui/react';
+
+import Main from './components/Main';
+import Resume from './components/Resume';
 
 function App() {
   return (
-    <div className="App">
-      <Route path="/metwo">
-        <header className="App-header">Hi there</header>
-      </Route>
-      <Route path="/me">
-        <Main />
-      </Route>
-    </div>
+    <GeistProvider>
+      <div className="App">
+        <CssBaseline />
+        <Route path="/metwo">
+          <header className="App-header">Hi there</header>
+        </Route>
+        <Route path="/me" exact>
+          <Main />
+        </Route>
+        <Route path="/me/resume">
+          <Resume />
+        </Route>
+      </div>
+    </GeistProvider>
   );
 }
 
