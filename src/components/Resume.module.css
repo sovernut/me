@@ -8,7 +8,7 @@
 
 .resume {
   /* border: 1px saddlebrown solid; */
-  width: 80%;
+  width: 800px;
   /* height: 100vh; */
   margin-top: 1rem;
   /* background-color: white; */
@@ -67,9 +67,14 @@
 
 .listExperience {
   text-align: left;
-  /* list-style-type: circle; */
+  list-style-type: circle;
 }
 
 .experience {
   /* list-style-type: circle; */
+}
+
+.toolbar {
+  display: flex;
+  gap: 5px;
 }

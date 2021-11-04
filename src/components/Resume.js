@@ -1,75 +1,47 @@
 import React from 'react';
 
+import { toPng } from 'html-to-image';
+import jsPdf from 'jspdf';
+import { useHistory } from 'react-router';
+
 import {
   Button,
   Card,
   Grid,
 } from '@geist-ui/react';
+import Download from '@geist-ui/react-icons/download';
 
+import { nutResume as resume } from '../constants/resume';
 import classes from './Resume.module.css';
 
-const resume = {
-  name: "NUTTAPHON",
-  surname: "RODPHAKDEEKUL",
-  nickName: "Nut",
-  occupation: "Software Engineer",
-  mobileNumber: "086-559-8306",
-  email: "nuttaphonrod@gmail.com",
-  educations: [
-    {
-      name: "Graduated from Math-Science Program Watkhemapirataram School",
-      startYear: 2012,
-      endYear: 2015,
-    },
-    {
-      name: "Bachelor of Engineering Computer Engineering - King Mongkut’s University of Technology North Bangkok",
-      startYear: 2015,
-      endYear: 2019,
-    },
-  ],
-  workExperiences: [
-    {
-      workPlace: "Softnix Technology Co.,Ltd.",
-      occupation: "Internship",
-      startDate: "2018/06",
-      endDate: "2018/07",
-      experiences: [
-        "Implement web-scraping in PHP",
-        "Develop Logger Notification App using React-Native as a team of 3 people",
-      ],
-    },
-    {
-      workPlace: "Sirisoft Company Limited",
-      occupation: "Software Developer",
-      startDate: "2019/06",
-      endDate: "2020/04",
-      experiences: [
-        "Responsible in app development using framework Ionic , Angular",
-        "Develop serverless services using node.js as backend and deploy to AWS",
-      ],
-    },
-    {
-      workPlace: "Kasikorn Business-Technology Group",
-      occupation: "Software Engineer ",
-      startDate: "2020/05",
-      endDate: "2021/10",
-      experiences: [
-        "Develop microservices using Golang",
-        "Develop batch program to import data to database using Java",
-        "Implement and maintenance services in Java Springboot",
-        "Collaborate in problem solving",
-      ],
-    },
-  ],
-};
-
 const Resume = (props) => {
+  const history = useHistory();
+  const goHome = () => {
+    history.replace("/me");
+  };
+
+
+  const capture1 = () => {
+    const domElement = document.getElementById("resume");
+    toPng(domElement).then(function (dataUrl) {
+      const pdf = new jsPdf();
+      pdf.addImage(dataUrl, "JPEG", 5, 0);
+      pdf.save(`resume.pdf`);
+    });
+  };
+
   return (
     <div className={classes.root}>
-      <Button>RESUME</Button>
+      <div className={classes.toolbar}>
+        <Button onClick={goHome}>HOME</Button>
+        <Button onClick={capture1} icon={<Download />}>
+          PDF
+        </Button>
+      </div>
+
       <div className={classes.resume}>
         <Card hoverable>
-          <Grid.Container gap={2} justify="center">
+          <Grid.Container gap={2} justify="center" id="resume">
             <Grid xs={12} direction="column">
               <div className={classes.box}>
                 <h2 style={{ textAlign: "left" }}>
@@ -87,22 +59,24 @@ const Resume = (props) => {
                   <div className={classes.iconWrapper}>🎓</div>
                 </h4>
                 <table style={{ borderSpacing: 10 }}>
-                  {resume.educations.map((education, i) => (
-                    <tr key={i}>
-                      <td>
-                        <h5
-                          className={`${classes.headerText} ${classes.nowrap}`}
-                        >
-                          {education.startYear} - {education.endYear}
-                        </h5>
-                      </td>
-                      <td style={{ textAlign: "left" }}>
-                        <span className={classes.bodyText}>
-                          {education.name}
-                        </span>
-                      </td>
-                    </tr>
-                  ))}
+                  <tbody>
+                    {resume.educations.map((education, i) => (
+                      <tr key={i}>
+                        <td>
+                          <h5
+                            className={`${classes.headerText} ${classes.nowrap}`}
+                          >
+                            {education.startYear} - {education.endYear}
+                          </h5>
+                        </td>
+                        <td style={{ textAlign: "left" }}>
+                          <span className={classes.bodyText}>
+                            {education.name}
+                          </span>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
                 </table>
               </div>
               <div className={classes.box}>
@@ -112,25 +86,31 @@ const Resume = (props) => {
                 </h4>
                 <h4 className={`${classes.headerText}`}>Languages</h4>
                 <table style={{ borderSpacing: 10 }}>
-                  <tr>
-                    <td>
-                      <h5 className={`${classes.headerText} ${classes.nowrap}`}>
-                        English
-                      </h5>
-                    </td>
-                    <td
-                      style={{
-                        textAlign: "left",
-                        display: "flex",
-                        flexDirection: "column",
-                      }}
-                    >
-                      <span className={classes.bodyText}>Listening: Good</span>
-                      <span className={classes.bodyText}>Reading: Good</span>
-                      <span className={classes.bodyText}>Speak: Poor</span>
-                      <span className={classes.bodyText}>Writing: Poor</span>
-                    </td>
-                  </tr>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <h5
+                          className={`${classes.headerText} ${classes.nowrap}`}
+                        >
+                          English
+                        </h5>
+                      </td>
+                      <td
+                        style={{
+                          textAlign: "left",
+                          display: "flex",
+                          flexDirection: "column",
+                        }}
+                      >
+                        <span className={classes.bodyText}>
+                          Listening: Good
+                        </span>
+                        <span className={classes.bodyText}>Reading: Good</span>
+                        <span className={classes.bodyText}>Speak: Poor</span>
+                        <span className={classes.bodyText}>Writing: Poor</span>
+                      </td>
+                    </tr>
+                  </tbody>
                 </table>
                 <h4 className={classes.headerText}>Programming Languages</h4>
                 <span className={classes.bodyText}>
