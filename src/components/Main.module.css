@@ -35,7 +35,6 @@
 }
 
 .root {
-  background-color: rgb(35, 31, 63);
   min-height: 100vh;
   display: flex;
   align-items: center;
